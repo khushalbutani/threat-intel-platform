@@ -1,9 +1,11 @@
 const express = require("express");
-const router = express.Router();
 const Threat = require("../models/Threat");
+const authMiddleware = require("../middleware/auth");
 
-// Get all threats with filters
-router.get("/", async (req, res) => {
+const router = express.Router();
+
+// 🟢 Get all threats with optional filters
+router.get("/", authMiddleware, async (req, res) => {
   try {
     const { severity, source, startDate, endDate } = req.query;
     let filter = {};
@@ -14,10 +16,34 @@ router.get("/", async (req, res) => {
       filter.dateDetected = { $gte: new Date(startDate), $lte: new Date(endDate) };
     }
 
-    const threats = await Threat.find(filter).sort({ dateDetected: -1 });
+    const threats = await Threat.find(filter)
+      .populate("reportedBy", "username")
+      .sort({ dateDetected: -1 });
+
     res.json(threats);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
+// 🔵 Create a new threat report
+router.post("/", authMiddleware, async (req, res) => {
+  try {
+    const { title, description, severity, source } = req.body;
+
+    const newThreat = new Threat({
+      title,
+      description,
+      severity,
+      source,
+      reportedBy: req.user.id,
+      dateDetected: new Date(), // Ensure date is set when reported
+    });
+
+    await newThreat.save();
+    res.status(201).json(newThreat);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 });
 
