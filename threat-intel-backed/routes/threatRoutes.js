@@ -1,26 +1,24 @@
-const mongoose = require("mongoose");
+const express = require("express");
+const router = express.Router();
+const Threat = require("../models/Threat");
 
-const ThreatSchema = new mongoose.Schema(
-  {
-    title: { type: String, required: true, trim: true },
-    description: { type: String, required: true },
-    severity: {
-      type: String,
-      enum: ["low", "medium", "high", "critical"],
-      required: true,
-    },
-    status: {
-      type: String,
-      enum: ["open", "investigating", "resolved"],
-      default: "open",
-    },
-    reportedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-    tags: [{ type: String }], // Example: ["malware", "phishing", "DDoS"]
-  },
-  { timestamps: true } // Adds createdAt & updatedAt
-);
+// Get all threats with filters
+router.get("/", async (req, res) => {
+  try {
+    const { severity, source, startDate, endDate } = req.query;
+    let filter = {};
 
-// Index for faster search on title and severity
-ThreatSchema.index({ title: "text", severity: 1 });
+    if (severity) filter.severity = severity;
+    if (source) filter.source = new RegExp(source, "i");
+    if (startDate && endDate) {
+      filter.dateDetected = { $gte: new Date(startDate), $lte: new Date(endDate) };
+    }
 
-module.exports = mongoose.model("Threat", ThreatSchema);
+    const threats = await Threat.find(filter).sort({ dateDetected: -1 });
+    res.json(threats);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+module.exports = router;

@@ -1,11 +1,18 @@
 const mongoose = require("mongoose");
+const encrypt = require("mongoose-encryption");
+require("dotenv").config();
 
 const ThreatSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  description: { type: String },
+  title: { type: String, required: true },
+  description: { type: String, required: true },
   severity: { type: String, enum: ["Low", "Medium", "High"], required: true },
+  source: { type: String, required: true },
+  dateDetected: { type: Date, default: Date.now },
 });
 
-const Threat = mongoose.models.Threat || mongoose.model("Threat", ThreatSchema);
+ThreatSchema.plugin(encrypt, {
+  secret: process.env.ENCRYPTION_KEY,
+  encryptedFields: ["description"],
+});
 
-module.exports = Threat;
+module.exports = mongoose.model("Threat", ThreatSchema);

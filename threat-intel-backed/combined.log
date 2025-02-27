@@ -1,0 +1,16 @@
+{"level":"info","message":"GET /api/threat-data","timestamp":"2025-02-27T02:51:48.818Z"}
+{"level":"info","message":"POST /api/privacy/anonymize","timestamp":"2025-02-27T02:53:34.154Z"}
+{"level":"info","message":"GET /api/threat-data","timestamp":"2025-02-27T02:55:45.031Z"}
+{"level":"info","message":"POST /api/privacy/anonymize","timestamp":"2025-02-27T02:58:52.790Z"}
+{"level":"info","message":"POST /api/privacy/anonymize","timestamp":"2025-02-27T03:03:28.358Z"}
+{"level":"info","message":"POST /api/privacy/anonymize","timestamp":"2025-02-27T03:03:32.490Z"}
+{"level":"info","message":"POST /api/privacy/anonymize","timestamp":"2025-02-27T03:03:48.167Z"}
+{"level":"info","message":"POST /api/privacy/anonymize","timestamp":"2025-02-27T03:05:37.417Z"}
+{"level":"info","message":"POST /api/privacy/anonymize","timestamp":"2025-02-27T03:11:45.436Z"}
+{"level":"info","message":"POST /api/privacy/anonymize","timestamp":"2025-02-27T03:11:49.154Z"}
+{"level":"info","message":"POST /api/privacy/anonymize","timestamp":"2025-02-27T03:11:50.385Z"}
+{"level":"info","message":"GET /api/privacy/encrypt?Content-Type=application/json","timestamp":"2025-02-27T03:40:17.506Z"}
+{"level":"info","message":"GET /api/privacy/encrypt?Content-Type=application/json","timestamp":"2025-02-27T03:44:05.843Z"}
+{"level":"info","message":"GET /api/privacy/encrypt?Content-Type=application/json","timestamp":"2025-02-27T03:44:12.561Z"}
+{"level":"info","message":"GET /api/privacy/encrypt?Content-Type=application/json","timestamp":"2025-02-27T03:44:15.482Z"}
+{"level":"info","message":"GET /api/privacy/encrypt","timestamp":"2025-02-27T03:44:23.310Z"}
